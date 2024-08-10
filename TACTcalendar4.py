@@ -299,6 +299,6 @@ while True:
     update_spreadsheet(calendar)
     del df
     del calendar
-    time.sleep(300)
+    time.sleep(3600)
 
 
