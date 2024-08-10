@@ -1,6 +1,6 @@
 # TACT Calendar4
 
-TACT Calendar4 is a project for automatically retrieving weekly class schedules from TACT's publicly available timetables at regular intervals.
+TACT Calendar4 is a project for automatically retrieving weekly class schedules from TACT's publicly available timetables at regular intervals and updating a Google Sheets document.
 
 ## Project Preview
 
@@ -18,8 +18,7 @@ tactcalendar4/
 ├── manager.sh              # Shell script to run the manager
 ├── requirements.txt        # Python dependencies
 ├── TACTcalendar4.ipynb     # Jupyter notebook for the project
-├── TACTcalendar4.py        # Main Python script
-└── nuctcalendar-39398a67d180.json  # Google Calendar API credentials (keep this private!)
+└── TACTcalendar4.py        # Main Python script
 ```
 
 ## Setup
@@ -37,7 +36,26 @@ tactcalendar4/
    pip install -r requirements.txt
    ```
 
-3. Set up the Google Calendar API credentials (see Google Calendar API documentation for details).
+3. Set up the Google Sheets API credentials and configure the .env file:
+   - Go to the Google Cloud Console and create a new project.
+   - Enable the Google Sheets API for your project.
+   - Create credentials (Service Account Key) for the Sheets API.
+   - Download the JSON key file and place it in a secure location within your project directory.
+   - Create a `.env` file in the project root directory if it doesn't exist.
+   - Add the following lines to the `.env` file:
+     ```
+     # Google Sheets API認証情報
+     GOOGLE_APPLICATION_CREDENTIALS="/path/to/tactcalendar4/tact-calendar-credentials.json"
+
+     # TACT上に公開されている時間割のスプレッドシートID
+     SPREADSHEET_KEY="spreadsheet_id_here"
+
+     # TACT上に公開されている時間割のワークシート名
+     WORKSHEET_NAME="医学科4年生"
+     ```
+   - Replace `/path/to/tactcalendar4/tact-calendar-credentials.json` with the actual path to your downloaded JSON key file.
+   - Replace `spreadsheet_id_here` with the ID of the Google Sheets spreadsheet containing the TACT timetables.
+   - If necessary, modify the `WORKSHEET_NAME` to match the specific worksheet you're working with.
 
 4. Run the manager:
    ```
@@ -50,12 +68,12 @@ tactcalendar4/
 To run TACT Calendar4 as a systemd service:
 
 1. Modify the `tactcalendar.service` file:
-- Open the file and locate the `ExecStart` line.
-- Update the path to match your specific installation directory.
-- For example, if your project is in `/home/yourusername/tactcalendar4/`, change the line to:
-   ```
-   ExecStart=/home/yourusername/tactcalendar4/manager.sh
-   ```
+   - Open the file and locate the `ExecStart` line.
+   - Update the path to match your specific installation directory.
+   - For example, if your project is in `/home/yourusername/tactcalendar4/`, change the line to:
+     ```
+     ExecStart=/home/yourusername/tactcalendar4/manager.sh
+     ```
 
 2. Copy `tactcalendar.service` to `/etc/systemd/system/`:
    ```

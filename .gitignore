@@ -12,7 +12,7 @@ env/
 # Jupyter Notebook
 .ipynb_checkpoints
 
-# Google Calendar API credentials
+# Google Sheets API credentials
 nuctcalendar-39398a67d180.json
 
 # OS generated files
